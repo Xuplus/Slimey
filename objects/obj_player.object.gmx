@@ -27,6 +27,9 @@
             <kind>1</kind>
             <string>//Initialize variables
 sticked = false;
+collisions = 0;
+collisionx = 0;
+collisiony = 0;
 /*fix = physics_fixture_create();
 physics_fixture_set_circle_shape(fix,8);
 physics_fixture_set_density(fix,1);
@@ -77,17 +80,23 @@ if (instances &gt; 0){
     module = sqrt(sqr(x0) + sqr(y0));
     //normalized coordinates
     xn = x0 / module;
-    yn = y0 / module
+    yn = y0 / module;
     // I may need to push the wall in order to unstick the player
-    if (module &gt; 20) sticked = false;
+    //if (module &gt; 20) sticked = false;
     // we apply a force towards the point
     physics_apply_force(x,y,xn * force,yn * force);
 } else //sticked = false;
 
 if (sticked){
     // we must stick to the point in space we are
-    physics_world_update_speed(0);
-} 
+    //physics_world_update_speed(0);
+    //phy_active = false;
+    //phy_linear_velocity_x = 0;
+    //phy_linear_velocity_y = 0;
+    phy_linear_damping = 1000;
+} else{
+    phy_linear_damping = 0.1;
+}
 </string>
           </argument>
         </arguments>
@@ -112,6 +121,41 @@ if (sticked){
             <kind>1</kind>
             <string>//We collide with a valid surface
 sticked = true;
+collisions = phy_collision_points;
+collisionx = phy_collision_x[0];
+collisiony = phy_collision_y[0];
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// Just touched a new point, we must unstick
+sticked = false;
+phy_linear_damping = 0.1;
+var force = 30;
+x0 = x - collisionx;
+y0 = y - collisiony;
+module = sqrt(sqr(x0) + sqr(y0));
+xn = x0 / module;
+yn = y0 / module;
+physics_apply_force(x,y,xn * force, yn * force);
 </string>
           </argument>
         </arguments>
@@ -142,6 +186,7 @@ if instances &gt; 0
 draw_text(32,32,"coordinates : " + string(obj_action_point.x) + "-" + string(obj_action_point.y))
 
 if sticked draw_text(32,48,"sticked");
+draw_text(32,64,"Collision points: " + string(collisions));
 </string>
           </argument>
         </arguments>
@@ -155,8 +200,8 @@ if sticked draw_text(32,48,"sticked");
   <PhysicsObjectRestitution>0.100000001490116</PhysicsObjectRestitution>
   <PhysicsObjectGroup>0</PhysicsObjectGroup>
   <PhysicsObjectLinearDamping>0.100000001490116</PhysicsObjectLinearDamping>
-  <PhysicsObjectAngularDamping>0.100000001490116</PhysicsObjectAngularDamping>
-  <PhysicsObjectFriction>100000</PhysicsObjectFriction>
+  <PhysicsObjectAngularDamping>10</PhysicsObjectAngularDamping>
+  <PhysicsObjectFriction>10</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
   <PhysicsShapePoints>

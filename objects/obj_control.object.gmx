@@ -40,7 +40,11 @@
     if (device_mouse_check_button(device,mb_left)){
         x0 = device_mouse_x(device);
         y0 = device_mouse_y(device);
-        
+        if collision_circle(x0,y0,10,obj_collision,false,false){
+            with(obj_player){
+                event_user(0); //We've just touched a new point
+            }
+        }
     }
 }
 </string>
