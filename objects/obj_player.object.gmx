@@ -26,27 +26,141 @@
           <argument>
             <kind>1</kind>
             <string>//Initialize variables
-grav = 0.2;
-hsp = 0;
-vsp = 0;
-jumpSpeed = 7;
-movespeed = 4;
+sticked = false;
+/*fix = physics_fixture_create();
+physics_fixture_set_circle_shape(fix,8);
+physics_fixture_set_density(fix,1);
+physics_fixture_set_restitution(fix,0.1);
+physics_fixture_set_collision_group(fix,0);
+physics_fixture_set_linear_damping(fix,0.1);
+physics_fixture_set_angular_damping(fix,0.1);
+physics_fixture_set_friction(fix,10);
+
+fix_ed = physics_fixture_create();
+physics_fixture_set_circle_shape(fix_ed,8);
+physics_fixture_set_density(fix_ed,0);
+physics_fixture_set_restitution(fix_ed,0.1);
+physics_fixture_set_collision_group(fix_ed,0);
+physics_fixture_set_linear_damping(fix_ed,0.1);
+physics_fixture_set_angular_damping(fix_ed,0.1);
+physics_fixture_set_friction(fix_ed,10);*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var instances = instance_number(obj_action_point);
+var force = 300;
+
+if (instances &gt; 0){
+    // point coordinates
+    x0 = obj_action_point.x - x;
+    y0 = obj_action_point.y - y;
+    // module
+    module = sqrt(sqr(x0) + sqr(y0));
+    //normalized coordinates
+    xn = x0 / module;
+    yn = y0 / module
+    // I may need to push the wall in order to unstick the player
+    if (module &gt; 20) sticked = false;
+    // we apply a force towards the point
+    physics_apply_force(x,y,xn * force,yn * force);
+} else //sticked = false;
+
+if (sticked){
+    // we must stick to the point in space we are
+    physics_world_update_speed(0);
+} 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_collision">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//We collide with a valid surface
+sticked = true;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_set_colour(c_black);
+var instances = instance_number(obj_action_point);
+
+draw_text(32,16,"number of points : " + string(instances));
+if instances &gt; 0 
+draw_text(32,32,"coordinates : " + string(obj_action_point.x) + "-" + string(obj_action_point.y))
+
+if sticked draw_text(32,48,"sticked");
 </string>
           </argument>
         </arguments>
       </action>
     </event>
   </events>
-  <PhysicsObject>0</PhysicsObject>
+  <PhysicsObject>-1</PhysicsObject>
   <PhysicsObjectSensor>0</PhysicsObjectSensor>
   <PhysicsObjectShape>0</PhysicsObjectShape>
-  <PhysicsObjectDensity>0.5</PhysicsObjectDensity>
+  <PhysicsObjectDensity>1</PhysicsObjectDensity>
   <PhysicsObjectRestitution>0.100000001490116</PhysicsObjectRestitution>
   <PhysicsObjectGroup>0</PhysicsObjectGroup>
   <PhysicsObjectLinearDamping>0.100000001490116</PhysicsObjectLinearDamping>
   <PhysicsObjectAngularDamping>0.100000001490116</PhysicsObjectAngularDamping>
-  <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
+  <PhysicsObjectFriction>100000</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
-  <PhysicsShapePoints/>
+  <PhysicsShapePoints>
+    <point>8,8</point>
+    <point>8,0</point>
+  </PhysicsShapePoints>
 </object>
