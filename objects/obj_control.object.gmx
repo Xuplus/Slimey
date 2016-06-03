@@ -29,15 +29,26 @@
     if (device_mouse_check_button_pressed(device,mb_left)){
         x0 = device_mouse_x(device);
         y0 = device_mouse_y(device);
-        if collision_circle(x0,y0,10,obj_collision,false,false){
+        
+        if collision_circle(x0,y0,10,obj_player,false,false){
+            with(obj_action_point) instance_destroy();
+            with(obj_player){
+                event_user(0); //We need to unstick
+            }
+        }
+        
+        else if collision_circle(x0,y0,10,obj_collision,false,false){
             //I've pressed a valid object
             with(obj_action_point) instance_destroy();
             instance_create(x0,y0,obj_action_point);
-        } else{
-            with(obj_action_point) instance_destroy();
+            with(obj_player){
+                event_user(0); //We need to unstick
+            }
         }
+        
+        else with(obj_action_point) instance_destroy();
     }
-    if (device_mouse_check_button(device,mb_left)){
+    /*if (device_mouse_check_button(device,mb_left)){
         x0 = device_mouse_x(device);
         y0 = device_mouse_y(device);
         if collision_circle(x0,y0,10,obj_collision,false,false){
@@ -45,7 +56,7 @@
                 event_user(0); //We've just touched a new point
             }
         }
-    }
+    }*/
 }
 </string>
           </argument>

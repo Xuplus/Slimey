@@ -20,11 +20,12 @@
   </scripts>
   <objects name="objects">
     <object>objects\obj_player</object>
-    <object>objects\obj_collision</object>
     <object>objects\obj_control</object>
+    <object>objects\obj_collision</object>
     <object>objects\obj_action_point</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_level1</room>
     <room>rooms\rm_test</room>
   </rooms>
   <help>

@@ -87,6 +87,8 @@ if (instances &gt; 0){
     physics_apply_force(x,y,xn * force,yn * force);
 } else //sticked = false;
 
+if (collisions == 0) sticked = false;
+
 if (sticked){
     // we must stick to the point in space we are
     //physics_world_update_speed(0);
@@ -147,15 +149,22 @@ collisiony = phy_collision_y[0];
           <argument>
             <kind>1</kind>
             <string>// Just touched a new point, we must unstick
-sticked = false;
-phy_linear_damping = 0.1;
-var force = 30;
-x0 = x - collisionx;
-y0 = y - collisiony;
-module = sqrt(sqr(x0) + sqr(y0));
-xn = x0 / module;
-yn = y0 / module;
-physics_apply_force(x,y,xn * force, yn * force);
+if (sticked){
+    sticked = false;
+    phy_linear_damping = 0.1;
+    var reduction = 5;
+    //var force = 300;
+    x0 = x - collisionx;
+    y0 = y - collisiony;
+    /*module = sqrt(sqr(x0) + sqr(y0));
+    xn = x0 / module;
+    yn = y0 / module;*/
+    //physics_apply_force(x,y,xn * force, yn * force);
+    
+    //Lets try to move the player, instead of pushing him
+    phy_position_x += x0 / reduction;
+    phy_position_y += y0 / reduction;
+}
 </string>
           </argument>
         </arguments>
